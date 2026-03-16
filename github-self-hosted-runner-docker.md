@@ -33,7 +33,7 @@ El modelo de runners self-hosted funciona como una **pila compartida de runners*
 
 Si prefieres ver el proceso explicado paso a paso, puedes ver este video de apoyo:
 
-[Ver video en Google Drive](https://drive.google.com/file/d/12C_hM3mBgsa5fr4xPsV5tHlclZOufeVA/view)
+[Ver video en Google Drive](https://drive.google.com/file/d/12C_hM3mBgsa5fr4xPsV5tHlclZOufeVA/view?usp=drive_link)
 
 ---
 
