@@ -4,6 +4,8 @@
 
 .env*
 
+#rider
+.idea
 
 # mstest test results
 TestResults
