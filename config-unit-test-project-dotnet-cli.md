@@ -14,7 +14,7 @@ Para verificar que estás en el lugar correcto, ejecuta:
 ```bash
 ls
 ```
-Deberías ver el archivo `.sln` en la salida.
+Deberías ver el archivo de tu solución en la salida (`.slnx`, o `.sln` si usaste el formato clásico).
 
 <p align="center">
 <img src='./images/image-16.png'>
@@ -64,8 +64,12 @@ Verifica la instalación abriendo el archivo `Vidly.BusinessLogic.Test.csproj`:
 > Facilita la escritura de pruebas claras, robustas y fáciles de mantener.
 
 ```bash
-dotnet add package FluentAssertions
+dotnet add package FluentAssertions --version 7.2.0
 ```
+
+> ⚠️ **Fijá la versión `7.2.0`.** A partir de la 8.0 FluentAssertions pasó a una licencia comercial
+> (Xceed) que no es gratuita para uso no open source. La `7.2.0` es la última versión libre.
+
 - ✨ Permite encadenar múltiples assertions.
 - 📣 Proporciona mensajes de error claros y descriptivos.
 - 🧰 Cobertura para objetos, colecciones, cadenas, números, excepciones y más.

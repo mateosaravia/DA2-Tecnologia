@@ -39,8 +39,11 @@ A continuación, se describe cómo agregar los paquetes recomendados **Moq** y *
 2. **Busca `FluentAssertions`** en la barra de búsqueda  
    ![Buscar FluentAssertions](./images/image-21.png)
 
-3. **Selecciona e instala** la última versión.  
+3. **Selecciona e instala la versión `7.2.0`** (no la última).
    - Asegúrate que la fuente del paquete sea `nuget.org`  
+   - ⚠️ A partir de la 8.0 FluentAssertions pasó a una licencia comercial (Xceed) que no es gratuita
+     para uso no open source. La `7.2.0` es la última versión libre, así que hay que elegirla
+     explícitamente en el desplegable de versiones.
    ![Instalar versión](./images/image-22.png)
 
 4. **Verifica la instalación:**  

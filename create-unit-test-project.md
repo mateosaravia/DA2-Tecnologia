@@ -9,7 +9,7 @@ El siguiente tutorial describe paso a paso cómo crear una solución en .NET, or
 ## 🟦 1. Creación de la Solución
 
 > **¿Qué es una solución?**  
-> Una solución (`.sln`) es un contenedor que agrupa múltiples proyectos de .NET (aplicaciones, bibliotecas, pruebas, etc.), facilitando la gestión y el desarrollo colaborativo.
+> Una solución es un contenedor que agrupa múltiples proyectos de .NET (aplicaciones, bibliotecas, pruebas, etc.), facilitando la gestión y el desarrollo colaborativo.
 
 ### 📝 Pasos
 
@@ -31,6 +31,16 @@ El siguiente tutorial describe paso a paso cómo crear una solución en .NET, or
    - `new`: Crear un nuevo recurso
    - `sln`: Indica que quieres una solución
    - `-n`: Especifica el nombre
+
+   > 📄 **El archivo generado es `<NombreNegocio>.slnx`.**
+   > A partir de .NET 10 `dotnet new sln` genera el formato `.slnx` (XML, más simple y legible).
+   > Ese nombre **con la extensión incluida** es el que va en el parámetro `solution-name` de los
+   > workflows `build-test.yml` y `code-analysis.yml`.
+   >
+   > El formato `.sln` clásico sigue siendo válido: si lo preferís, usá
+   > `dotnet new sln -n <NombreNegocio> --format sln`. Los workflows funcionan igual con ambos.
+   > Lo que sí conviene evitar es que queden los dos archivos en la misma carpeta, porque ahí los
+   > comandos `dotnet` sin solución explícita fallan con `error MSB1011`.
 
 3. **Crea los directorios principales:**
 
@@ -69,6 +79,13 @@ El siguiente tutorial describe paso a paso cómo crear una solución en .NET, or
      - `Test`: Indica que es para pruebas
 
    ![Creación del proyecto MSTest](./images/image-2.png)
+
+   > 📊 **¿Y la cobertura de código?**
+   > El workflow `build-test.yml` exige que los proyectos de prueba tengan `coverlet.collector`,
+   > pero **no tenés que agregarlo a mano**: el archivo `Directory.Build.targets` que copiaste en la
+   > [configuración inicial del repositorio](https://github.com/IngSoft-DA2/DA2-Tecnologia/blob/repo-configuration/README.md)
+   > lo agrega automáticamente a todo proyecto de prueba de la solución.
+   > Esto vale tanto si creás el proyecto por CLI como desde Visual Studio.
 
 3. **Verifica la creación:**
 

@@ -43,8 +43,11 @@ someObject.Should().Satisfy<MyClass>(obj => obj.CustomProperty == expectedValue)
 > Utilizar FluentAssertions no solo mejora la calidad de tus pruebas, sino que también contribuye a una mejor experiencia de desarrollo y mantenimiento.
 
 ```bash
-dotnet add package FluentAssertions
+dotnet add package FluentAssertions --version 7.2.0
 ```
+
+> ⚠️ **Fijá la versión `7.2.0`.** A partir de la 8.0 FluentAssertions pasó a una licencia comercial
+> (Xceed) que no es gratuita para uso no open source. La `7.2.0` es la última versión libre.
 
 ---
 
