@@ -103,14 +103,11 @@ ARG ARCH
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
-    apt-get install -y curl tar git jq sudo python3 python3-pip wget apt-transport-https ca-certificates gnupg software-properties-common && \
+    apt-get install -y curl tar git jq sudo python3 python3-pip ca-certificates libicu70 && \
     apt-get clean
 
 ENV DOTNET_ROOT=/usr/share/dotnet
-RUN apt-get update && \
-    apt-get install -y libicu70 && \
-    apt-get clean && \
-    curl -fsSL https://dot.net/v1/dotnet-install.sh -o dotnet-install.sh && \
+RUN curl -fsSL https://dot.net/v1/dotnet-install.sh -o dotnet-install.sh && \
     chmod +x dotnet-install.sh && \
     ./dotnet-install.sh --channel 10.0 --install-dir "$DOTNET_ROOT" && \
     ln -s "$DOTNET_ROOT/dotnet" /usr/bin/dotnet && \
@@ -137,9 +134,9 @@ ENTRYPOINT ["/entrypoint.sh"]
 ```
 
 > **¿Por qué `dotnet-install.sh` y no `apt`?**
-> El feed de paquetes de Microsoft para Ubuntu no publica el SDK de .NET 10, así que
-> `apt-get install dotnet-sdk-10.0` no funciona. El script oficial `dotnet-install.sh`
-> instala el SDK directamente y es el método recomendado para entornos de CI.
+> El feed de paquetes de Microsoft para Ubuntu no publica el SDK de .NET 10:
+> `apt-get install dotnet-sdk-10.0` no funciona. El script oficial es el método
+> recomendado para entornos de CI.
 
 ---
 
@@ -247,18 +244,13 @@ docker-compose up --build
 
 Esto construye la imagen y levanta el contenedor, registrando el runner automáticamente.
 
-> **Si ya tenías el runner creado desde antes**, no alcanza con volver a levantarlo: la imagen
-> vieja todavía tiene el SDK anterior. Hay que reconstruirla forzando el recreado del contenedor:
->
-> ```bash
-> docker-compose up --build --force-recreate
-> ```
->
-> Podés verificar qué SDK quedó dentro de la imagen con:
->
-> ```bash
-> docker exec da2-self-hosted-runner dotnet --version
-> ```
+Para verificar qué SDK quedó dentro de la imagen:
+
+```bash
+docker exec da2-self-hosted-runner dotnet --version
+```
+
+Debería mostrar una versión `10.x`.
 
 ---
 
@@ -279,9 +271,11 @@ Esto construye la imagen y levanta el contenedor, registrando el runner automát
   ```bash
   docker logs -f da2-self-hosted-runner
   ```
-- Si los workflows fallan con **`A compatible .NET SDK was not found`**, tu imagen quedó con un
-  SDK viejo (por ejemplo .NET 8) y el `global.json` del repo pide .NET 10. Reconstruí la imagen
-  como se indica en el paso 7 (`docker-compose up --build --force-recreate`).
+- Si los workflows fallan con **`A compatible .NET SDK was not found`**, el SDK que hay dentro de la
+  imagen no satisface el `global.json` del repositorio. Verificá la versión con
+  `docker exec da2-self-hosted-runner dotnet --version` y, si editaste el `Dockerfile`, reconstruí
+  la imagen con `docker-compose up --build --force-recreate` (levantarla sin `--build` reutiliza la
+  imagen anterior).
 
 ---
 

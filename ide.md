@@ -62,6 +62,7 @@ Para trabajar con proyectos .NET, asegúrate de instalar el **.NET 10.0 SDK**. E
 2. 💾 Ejecuta el instalador descargado y sigue las instrucciones en pantalla.
 3. 🧑‍💻 Comprueba la instalación:
    - Si usas **Visual Studio Enterprise** en Windows, deberías poder seleccionar la versión de .NET 10 al crear nuevos proyectos.
+     - ⚠️ Para poder **targetear `net10.0`** necesitás **Visual Studio 2026 (18.0)** o superior. Visual Studio 2022 puede tener el SDK de .NET 10 instalado, pero solo te deja targetear hasta `net9.0`. Si al crear un proyecto no te aparece .NET 10 en el desplegable de framework, actualizá Visual Studio desde el **Visual Studio Installer**.
    - Si usas **Visual Studio Code**, abre una terminal y ejecuta el comando:
      ```
      dotnet --version
