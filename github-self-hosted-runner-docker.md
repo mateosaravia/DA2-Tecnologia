@@ -106,12 +106,15 @@ RUN apt-get update && \
     apt-get install -y curl tar git jq sudo python3 python3-pip wget apt-transport-https ca-certificates gnupg software-properties-common && \
     apt-get clean
 
-RUN wget https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb && \
-    dpkg -i packages-microsoft-prod.deb && \
-    rm packages-microsoft-prod.deb && \
-    apt-get update && \
-    apt-get install -y dotnet-sdk-8.0 && \
-    apt-get clean
+ENV DOTNET_ROOT=/usr/share/dotnet
+RUN apt-get update && \
+    apt-get install -y libicu70 && \
+    apt-get clean && \
+    curl -fsSL https://dot.net/v1/dotnet-install.sh -o dotnet-install.sh && \
+    chmod +x dotnet-install.sh && \
+    ./dotnet-install.sh --channel 10.0 --install-dir "$DOTNET_ROOT" && \
+    ln -s "$DOTNET_ROOT/dotnet" /usr/bin/dotnet && \
+    rm dotnet-install.sh
 
 RUN useradd -m runner && mkdir -p /runner && chown runner:runner /runner
 WORKDIR /runner
@@ -132,6 +135,11 @@ USER runner
 
 ENTRYPOINT ["/entrypoint.sh"]
 ```
+
+> **¿Por qué `dotnet-install.sh` y no `apt`?**
+> El feed de paquetes de Microsoft para Ubuntu no publica el SDK de .NET 10, así que
+> `apt-get install dotnet-sdk-10.0` no funciona. El script oficial `dotnet-install.sh`
+> instala el SDK directamente y es el método recomendado para entornos de CI.
 
 ---
 
@@ -239,6 +247,19 @@ docker-compose up --build
 
 Esto construye la imagen y levanta el contenedor, registrando el runner automáticamente.
 
+> **Si ya tenías el runner creado desde antes**, no alcanza con volver a levantarlo: la imagen
+> vieja todavía tiene el SDK anterior. Hay que reconstruirla forzando el recreado del contenedor:
+>
+> ```bash
+> docker-compose up --build --force-recreate
+> ```
+>
+> Podés verificar qué SDK quedó dentro de la imagen con:
+>
+> ```bash
+> docker exec da2-self-hosted-runner dotnet --version
+> ```
+
 ---
 
 ## 8. Verificar el runner en GitHub
@@ -254,10 +275,13 @@ Esto construye la imagen y levanta el contenedor, registrando el runner automát
 - **Siempre debe haber al menos un runner activo** o los workflows quedarán pendientes.
 - Si tu runner queda inactivo, simplemente vuelve a levantar el contenedor.
 - Si eliminas el contenedor sin desregistrar el runner, GitHub lo mostrará como inactivo. Puedes eliminarlo manualmente desde Settings → Actions → Runners.
-- Para ver logs:  
+- Para ver logs:
   ```bash
   docker logs -f da2-self-hosted-runner
   ```
+- Si los workflows fallan con **`A compatible .NET SDK was not found`**, tu imagen quedó con un
+  SDK viejo (por ejemplo .NET 8) y el `global.json` del repo pide .NET 10. Reconstruí la imagen
+  como se indica en el paso 7 (`docker-compose up --build --force-recreate`).
 
 ---
 
