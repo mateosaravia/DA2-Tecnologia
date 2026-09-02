@@ -70,10 +70,6 @@ Para trabajar con proyectos .NET, asegúrate de instalar el **.NET 10.0 SDK**. E
      Debería mostrar la versión recién instalada.
 4. 🔄 Si la versión no aparece correctamente, reinicia tu equipo y vuelve a ejecutar el paso 3.
 
-> ⚠️ Los repositorios del curso incluyen un `global.json` que exige el **SDK 10.0.100 o superior**.
-> Si tenés instalada una versión anterior, los comandos `dotnet` van a fallar con
-> `A compatible .NET SDK was not found`.
-
 ---
 
 ❓¿Dudas o problemas durante la instalación? Consulta las guías enlazadas arriba o comunícate con tu docente.

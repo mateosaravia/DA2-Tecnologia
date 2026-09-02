@@ -133,11 +133,6 @@ USER runner
 ENTRYPOINT ["/entrypoint.sh"]
 ```
 
-> **¿Por qué `dotnet-install.sh` y no `apt`?**
-> El feed de paquetes de Microsoft para Ubuntu no publica el SDK de .NET 10:
-> `apt-get install dotnet-sdk-10.0` no funciona. El script oficial es el método
-> recomendado para entornos de CI.
-
 ---
 
 ## 5. Script de inicio `entrypoint.sh`
@@ -244,14 +239,6 @@ docker-compose up --build
 
 Esto construye la imagen y levanta el contenedor, registrando el runner automáticamente.
 
-Para verificar qué SDK quedó dentro de la imagen:
-
-```bash
-docker exec da2-self-hosted-runner dotnet --version
-```
-
-Debería mostrar una versión `10.x`.
-
 ---
 
 ## 8. Verificar el runner en GitHub
@@ -267,15 +254,10 @@ Debería mostrar una versión `10.x`.
 - **Siempre debe haber al menos un runner activo** o los workflows quedarán pendientes.
 - Si tu runner queda inactivo, simplemente vuelve a levantar el contenedor.
 - Si eliminas el contenedor sin desregistrar el runner, GitHub lo mostrará como inactivo. Puedes eliminarlo manualmente desde Settings → Actions → Runners.
-- Para ver logs:
+- Para ver logs:  
   ```bash
   docker logs -f da2-self-hosted-runner
   ```
-- Si los workflows fallan con **`A compatible .NET SDK was not found`**, el SDK que hay dentro de la
-  imagen no satisface el `global.json` del repositorio. Verificá la versión con
-  `docker exec da2-self-hosted-runner dotnet --version` y, si editaste el `Dockerfile`, reconstruí
-  la imagen con `docker-compose up --build --force-recreate` (levantarla sin `--build` reutiliza la
-  imagen anterior).
 
 ---
 
