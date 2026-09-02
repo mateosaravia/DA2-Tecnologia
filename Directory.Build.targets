@@ -1,19 +1,4 @@
 <Project>
-	<!--
-		Cobertura de codigo: agrega coverlet.collector a los proyectos de prueba.
-
-		Se declara aca una sola vez para todo el repositorio, asi no hay que agregar el
-		paquete manualmente en cada .csproj de test. La herencia funciona en cualquier
-		subdirectorio (src/, tests/, etc.).
-
-		Va en un Directory.Build.targets y no en Directory.Build.props porque el .targets
-		se importa DESPUES del .csproj: eso permite ver que paquetes declara cada proyecto
-		y no agregar coverlet.collector dos veces (warning NU1504) en los proyectos que ya
-		lo tenian declarado a mano.
-
-		La condicion tambien evita agregar el paquete a los proyectos de produccion:
-		solo aplica a los que referencian algun framework de testing.
-	-->
 	<ItemGroup Condition="'@(PackageReference->AnyHaveMetadataValue('Identity','coverlet.collector'))' != 'true' and ('@(PackageReference->AnyHaveMetadataValue('Identity','MSTest'))' == 'true' or '@(PackageReference->AnyHaveMetadataValue('Identity','MSTest.TestFramework'))' == 'true' or '@(PackageReference->AnyHaveMetadataValue('Identity','MSTest.TestAdapter'))' == 'true' or '@(PackageReference->AnyHaveMetadataValue('Identity','Microsoft.NET.Test.Sdk'))' == 'true' or '@(PackageReference->AnyHaveMetadataValue('Identity','xunit'))' == 'true' or '@(PackageReference->AnyHaveMetadataValue('Identity','NUnit'))' == 'true')">
 		<PackageReference Include="coverlet.collector" Version="6.0.2">
 			<PrivateAssets>all</PrivateAssets>

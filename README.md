@@ -69,7 +69,7 @@ Estos archivos son esenciales para que tu repositorio siga las buenas prácticas
 - **[.gitattributes](https://github.com/daniel18acevedo/DA2-Tecnologia/blob/repo-configuration/.gitattributes):** Configura atributos de archivos para Git.
 - **[.runsettings](https://github.com/IngSoft-DA2/DA2-Tecnologia/blob/repo-configuration/.runsettings):** Configura cobertura de código para los tests.
 - **[.config](https://github.com/IngSoft-DA2/DA2-Tecnologia/blob/repo-configuration/.config):** Configura una version estable de la herramienta dotnet ef para el proyecto.
-- **[global.json](https://github.com/IngSoft-DA2/DA2-Tecnologia/blob/repo-configuration/global.json):** Configura una version estable del SDK de .NET para el proyecto. Exige el **.NET 10 SDK** (`10.0.100` o superior): si no lo tenés instalado, los comandos `dotnet` fallan con `A compatible .NET SDK was not found`. Instalación en la [guía de IDE](https://github.com/IngSoft-DA2/DA2-Tecnologia/blob/main/ide.md).
+- **[global.json](https://github.com/IngSoft-DA2/DA2-Tecnologia/blob/repo-configuration/global.json):** Configura una version estable del SDK de .NET para el proyecto.
 
 ---
 
